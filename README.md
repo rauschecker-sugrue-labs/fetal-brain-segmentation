@@ -41,12 +41,12 @@ git pull origin
 The code is accessible inside the `unet` directory, with a `START_HERE.py` file to help getting started. [See more here](#usage).
 ### Python Environment
 A valid `conda` install is needed (Anaconda, Miniconda).  
-Install the environment from the `unet_def.yml` file.
+Install the environment from the `unet.yml` file.
 ```sh
 # Standard install:
-conda env create -f unet_def.yml
+conda env create -f unet.yml
 # Specify where to install:
-conda env create --prefix /path/to/install -f unet_def.yml
+conda env create --prefix /path/to/install -f unet.yml
 ```
 ### Directory structure
 The code and configuration is set up to work best with a specific directory structure, described in [Configuration](#configuration).
