@@ -1,0 +1,29 @@
+# Bootstrap: docker
+# From: tensorflow/tensorflow:2.3.1-gpu
+
+Bootstrap: docker
+From: continuumio/miniconda3
+
+%post
+    conda update -n base -c defaults conda -y
+    conda env create -f /app/unet.yml -p /opt/conda/envs/unet
+    # Clean up Conda to reduce the image size
+    conda clean -a -y
+    chmod -R ugo+rx /app
+
+%files
+    unet/ /app
+    unet.yml /app/unet.yml
+
+%environment
+    export PATH=/opt/conda/envs/unet/bin:$PATH
+
+%runscript
+    source activate unet
+    cd /app
+    python predict.py "$@"
+
+%test
+    source activate unet
+    cd /app
+    python test_tf.py

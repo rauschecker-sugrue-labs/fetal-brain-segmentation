@@ -29,7 +29,9 @@ Table of Contents
 This UNET has been developed to automatically segment fetal brain from 3D MRI images. This repository contains code to train a new model, continue the training, fine tune the training with frozen layers, and test a model with new images. It uses a cross entropy loss and computes a soft dice score during training, and regular dice score for the test part.
 
 ## Installation
-### Code
+You can either install the environment manually, or if you're interested in predictions and already have a model checkpoint use the provided `Singularity.def` file to build a container with all dependencies.
+
+### Get code
 Download this code directly, or use the following:
 ```sh
 cd /directory/where/you/want/the/code
@@ -39,6 +41,21 @@ git clone git@github.com:rauschecker-sugrue-labs/fetal-brain-segmentation.git
 git pull origin
 ```
 The code is accessible inside the `unet` directory, with a `START_HERE.py` file to help getting started. [See more here](#usage).
+
+### Singularity container
+Run the following command to build the container:
+```sh
+apptainer build unet.sif Singularity.def
+# this one time command takes a couple of minutes to run and creates a container file
+```
+Then, to run predictions:
+```sh
+./predict.sh \
+   path/to/data/inputs \
+   path/to/data/outputs \
+   path/to/model/checkpoint/dir
+# you can add here the GPU_id to use as well as number of CPUs for preprocessing
+```
 ### Python Environment
 A valid `conda` install is needed (Anaconda, Miniconda).  
 Install the environment from the `unet.yml` file.
@@ -52,6 +69,8 @@ conda env create --prefix /path/to/install -f unet.yml
 The code and configuration is set up to work best with a specific directory structure, described in [Configuration](#configuration).
 
 ## Usage
+See [Singularity container section](#singularity-container) if only doing predictions.
+
 ### Tensorflow 2 version
 
 Everything can be done from the `START_HERE.py` file. There are 2 actions to perform: load a `Config` object, and call `Config.start()`.
